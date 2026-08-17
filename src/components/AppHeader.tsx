@@ -1,8 +1,9 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQueryClient } from "@tanstack/react-query";
-import { LogOut, Wine } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 
+import logoVissimo from "@/assets/vissimo-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -31,10 +32,12 @@ export function AppHeader() {
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-card/85 backdrop-blur">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
-        <Link to="/painel" className="flex items-center gap-2">
-          <span className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <Wine className="size-4" />
-          </span>
+        <Link to="/painel" className="flex items-center gap-2.5">
+          <img
+            src={logoVissimo.url}
+            alt="Víssimo Group"
+            className="size-9 shrink-0 rounded-md object-cover"
+          />
           <span className="font-display text-base leading-tight font-semibold">
             Fila de Aprovação de PO
           </span>

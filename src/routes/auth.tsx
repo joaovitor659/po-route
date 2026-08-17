@@ -1,8 +1,8 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { Wine } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
+import logoVissimo from "@/assets/vissimo-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";

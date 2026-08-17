@@ -1,7 +1,8 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { FileCheck2, ShieldCheck, Wine } from "lucide-react";
+import { FileCheck2, ShieldCheck } from "lucide-react";
 import { useEffect } from "react";
 
+import logoVissimo from "@/assets/vissimo-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
