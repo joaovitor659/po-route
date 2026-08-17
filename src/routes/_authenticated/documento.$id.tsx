@@ -304,7 +304,6 @@ function DetalheDocumento() {
               Confirmar rejeição
             </Button>
           </DialogFooter>
-        </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
