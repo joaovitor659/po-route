@@ -1,24 +1,78 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { FileCheck2, ShieldCheck, Wine } from "lucide-react";
+import { useEffect } from "react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import { Button } from "@/components/ui/button";
+import { supabase } from "@/integrations/supabase/client";
+
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "Fila de Aprovação de PO — Importação de vinhos" },
+      {
+        name: "description",
+        content:
+          "Aplicativo interno para a gerência aprovar ou rejeitar pedidos de compra de importação de vinhos, com registro permanente de cada decisão.",
+      },
+      { property: "og:title", content: "Fila de Aprovação de PO" },
+      {
+        property: "og:description",
+        content:
+          "Revise os PDFs de pedidos de compra pendentes e registre aprovações e rejeições.",
+      },
+    ],
+  }),
+  component: PaginaInicial,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function PaginaInicial() {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    void supabase.auth.getSession().then(({ data }) => {
+      if (data.session) navigate({ to: "/painel", replace: true });
+    });
+  }, [navigate]);
+
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="flex min-h-screen flex-col bg-background">
+      <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-4 py-16">
+        <span className="flex size-11 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+          <Wine className="size-5" />
+        </span>
+        <h1 className="mt-6 text-4xl leading-tight font-semibold sm:text-5xl">
+          Fila de Aprovação de PO
+        </h1>
+        <p className="mt-4 max-w-xl text-base text-muted-foreground">
+          Sistema interno de comércio exterior. Os pedidos de compra chegam prontos da
+          planilha e da automação — aqui a gerência apenas revisa o PDF e registra a
+          decisão.
+        </p>
+
+        <div className="mt-8">
+          <Button asChild size="lg">
+            <Link to="/auth">Entrar</Link>
+          </Button>
+        </div>
+
+        <dl className="mt-14 grid gap-4 sm:grid-cols-2">
+          <div className="surface-panel p-5">
+            <FileCheck2 className="size-5 text-primary" />
+            <dt className="mt-3 font-medium">Aprovação com o PDF em tela</dt>
+            <dd className="mt-1 text-sm text-muted-foreground">
+              Cada pedido pendente mostra o documento gerado pela automação, pronto para
+              aprovar ou rejeitar com motivo.
+            </dd>
+          </div>
+          <div className="surface-panel p-5">
+            <ShieldCheck className="size-5 text-primary" />
+            <dt className="mt-3 font-medium">Histórico permanente</dt>
+            <dd className="mt-1 text-sm text-muted-foreground">
+              Toda decisão gera um registro imutável de quem decidiu, quando e por quê.
+            </dd>
+          </div>
+        </dl>
+      </main>
     </div>
   );
 }
