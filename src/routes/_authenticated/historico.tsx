@@ -30,7 +30,7 @@ export const Route = createFileRoute("/_authenticated/historico")({
       },
     ],
   }),
-  component: Historico;
+  component: Historico,
 });
 
 function Historico() {
