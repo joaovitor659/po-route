@@ -14,7 +14,80 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      documentos_po: {
+        Row: {
+          aprovado_em: string | null
+          aprovado_por: string | null
+          cliente: string
+          criado_em: string
+          exportador: string
+          id: string
+          identificador: string
+          pdf_url: string
+          status: Database["public"]["Enums"]["status_po"]
+        }
+        Insert: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          cliente: string
+          criado_em?: string
+          exportador: string
+          id?: string
+          identificador: string
+          pdf_url: string
+          status?: Database["public"]["Enums"]["status_po"]
+        }
+        Update: {
+          aprovado_em?: string | null
+          aprovado_por?: string | null
+          cliente?: string
+          criado_em?: string
+          exportador?: string
+          id?: string
+          identificador?: string
+          pdf_url?: string
+          status?: Database["public"]["Enums"]["status_po"]
+        }
+        Relationships: []
+      }
+      log_aprovacoes: {
+        Row: {
+          data_hora: string
+          documento_id: string
+          id: string
+          observacao: string | null
+          status_anterior: Database["public"]["Enums"]["status_po"] | null
+          status_novo: Database["public"]["Enums"]["status_po"]
+          usuario: string
+        }
+        Insert: {
+          data_hora?: string
+          documento_id: string
+          id?: string
+          observacao?: string | null
+          status_anterior?: Database["public"]["Enums"]["status_po"] | null
+          status_novo: Database["public"]["Enums"]["status_po"]
+          usuario: string
+        }
+        Update: {
+          data_hora?: string
+          documento_id?: string
+          id?: string
+          observacao?: string | null
+          status_anterior?: Database["public"]["Enums"]["status_po"] | null
+          status_novo?: Database["public"]["Enums"]["status_po"]
+          usuario?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "log_aprovacoes_documento_id_fkey"
+            columns: ["documento_id"]
+            isOneToOne: false
+            referencedRelation: "documentos_po"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +96,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      status_po: "pendente_aprovacao" | "aprovado" | "rejeitado" | "enviado"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +223,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      status_po: ["pendente_aprovacao", "aprovado", "rejeitado", "enviado"],
+    },
   },
 } as const
