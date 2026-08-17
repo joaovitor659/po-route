@@ -38,9 +38,11 @@ function PaginaInicial() {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-4 py-16">
-        <span className="flex size-11 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-          <Wine className="size-5" />
-        </span>
+        <img
+          src={logoVissimo.url}
+          alt="Víssimo Group"
+          className="size-16 rounded-xl object-cover shadow-[var(--shadow-panel)]"
+        />
         <h1 className="mt-6 text-4xl leading-tight font-semibold sm:text-5xl">
           Fila de Aprovação de PO
         </h1>
