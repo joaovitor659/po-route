@@ -146,16 +146,16 @@ function DetalheDocumento() {
   const pendente = documento.status === "pendente_aprovacao";
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack">
       <Link
         to="/painel"
-        className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
+        className="body-text inline-flex items-center gap-1.5 text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="size-4" />
         Voltar ao painel
       </Link>
 
-      <div className="surface-panel p-4 sm:p-5">
+      <div className="surface-panel panel-pad">
         <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
           <img
             src={logoVissimo.url}
@@ -163,7 +163,7 @@ function DetalheDocumento() {
             className="size-11 shrink-0 rounded-lg object-contain sm:size-12"
           />
           <div className="min-w-0">
-            <h1 className="truncate text-xl font-semibold sm:text-2xl">
+            <h1 className="page-title truncate">
               {documento.identificador}
             </h1>
             <div className="mt-1.5">
@@ -172,22 +172,22 @@ function DetalheDocumento() {
           </div>
         </div>
 
-        <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
+        <dl className="mt-5 grid gap-4 sm:grid-cols-2">
           <div>
-            <dt className="text-muted-foreground">Cliente</dt>
-            <dd className="font-medium">{documento.cliente}</dd>
+            <dt className="field-label">Cliente</dt>
+            <dd className="body-text mt-1 font-medium">{documento.cliente}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">Exportador</dt>
-            <dd className="font-medium">{documento.exportador}</dd>
+            <dt className="field-label">Exportador</dt>
+            <dd className="body-text mt-1 font-medium">{documento.exportador}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">Recebido em</dt>
-            <dd className="font-medium">{formatarDataHora(documento.criado_em)}</dd>
+            <dt className="field-label">Recebido em</dt>
+            <dd className="body-text mt-1 font-medium">{formatarDataHora(documento.criado_em)}</dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">Última decisão</dt>
-            <dd className="font-medium">
+            <dt className="field-label">Última decisão</dt>
+            <dd className="body-text mt-1 font-medium">
               {documento.aprovado_por
                 ? `${documento.aprovado_por} · ${formatarDataHora(documento.aprovado_em)}`
                 : "—"}
@@ -218,12 +218,12 @@ function DetalheDocumento() {
 
       <section className="surface-panel overflow-hidden">
         <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
-          <h2 className="text-sm font-medium">Documento PDF</h2>
+          <h2 className="section-title">Documento PDF</h2>
           <a
             href={documento.pdf_url}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
+            className="body-text inline-flex items-center gap-1.5 text-primary hover:underline"
           >
             Abrir em nova aba
             <ExternalLink className="size-3.5" />
@@ -235,7 +235,7 @@ function DetalheDocumento() {
           className="h-[55vh] w-full bg-muted sm:h-[70vh]"
           aria-label={`PDF do pedido ${documento.identificador}`}
         >
-          <div className="p-6 text-sm text-muted-foreground">
+          <div className="body-text p-6 text-muted-foreground">
             Não foi possível exibir o PDF neste dispositivo.{" "}
             <a
               href={documento.pdf_url}
@@ -251,18 +251,18 @@ function DetalheDocumento() {
       </section>
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold">Histórico deste documento</h2>
+        <h2 className="section-title">Histórico deste documento</h2>
         {(logs ?? []).length === 0 && (
-          <p className="surface-panel p-5 text-sm text-muted-foreground">
+          <p className="surface-panel body-text panel-pad text-muted-foreground">
             Nenhuma decisão registrada ainda.
           </p>
         )}
         <ul className="space-y-3">
           {(logs ?? []).map((log) => (
-            <li key={log.id} className="surface-panel p-4 text-sm">
+            <li key={log.id} className="surface-panel body-text panel-pad">
               <div className="flex flex-wrap items-center gap-2">
                 <StatusBadge status={log.status_novo} />
-                <span className="ml-auto text-xs text-muted-foreground">
+                <span className="meta-text ml-auto">
                   {formatarDataHora(log.data_hora)}
                 </span>
               </div>

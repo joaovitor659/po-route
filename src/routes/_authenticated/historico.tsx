@@ -79,17 +79,19 @@ function Historico() {
   }, [logs, documentoId, de, ate]);
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack">
       <div>
-        <h1 className="text-2xl font-semibold sm:text-3xl">Histórico de decisões</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <h1 className="page-title">Histórico de decisões</h1>
+        <p className="page-subtitle">
           Registro permanente — nenhuma entrada pode ser editada ou apagada.
         </p>
       </div>
 
-      <div className="surface-panel grid gap-4 p-4 sm:grid-cols-3">
+      <div className="surface-panel panel-pad grid gap-4 sm:grid-cols-3">
         <div className="space-y-1.5">
-          <Label htmlFor="documento">Documento</Label>
+          <Label htmlFor="documento" className="field-label">
+            Documento
+          </Label>
           <select
             id="documento"
             value={documentoId}
@@ -105,11 +107,15 @@ function Historico() {
           </select>
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="de">De</Label>
+          <Label htmlFor="de" className="field-label">
+            De
+          </Label>
           <Input id="de" type="date" value={de} onChange={(e) => setDe(e.target.value)} />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="ate">Até</Label>
+          <Label htmlFor="ate" className="field-label">
+            Até
+          </Label>
           <Input
             id="ate"
             type="date"
@@ -128,7 +134,7 @@ function Historico() {
       )}
 
       {!isLoading && filtrados.length === 0 && (
-        <p className="surface-panel p-8 text-center text-sm text-muted-foreground">
+        <p className="surface-panel body-text p-8 text-center text-muted-foreground">
           Nenhuma decisão registrada para os filtros selecionados.
         </p>
       )}
@@ -137,9 +143,9 @@ function Historico() {
         {filtrados.map((log) => {
           const doc = mapaDocumentos.get(log.documento_id);
           return (
-            <li key={log.id} className="surface-panel p-4">
+            <li key={log.id} className="surface-panel panel-pad">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="font-display font-semibold">
+                <span className="card-title">
                   {doc?.identificador ?? "Documento removido"}
                 </span>
                 <StatusBadge status={log.status_novo} />
@@ -147,17 +153,17 @@ function Historico() {
                   {formatarDataHora(log.data_hora)}
                 </span>
               </div>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="meta-text mt-1.5">
                 {doc ? `${doc.cliente} · ${doc.exportador}` : "—"}
               </p>
-              <p className="mt-2 text-sm">
+              <p className="body-text mt-2">
                 <span className="text-muted-foreground">
                   {log.status_anterior ? STATUS_LABEL[log.status_anterior] : "—"} →{" "}
                 </span>
                 {STATUS_LABEL[log.status_novo]} por {log.usuario}
               </p>
               {log.observacao && (
-                <p className="mt-2 rounded-md bg-muted p-2.5 text-sm">
+                <p className="body-text mt-2 rounded-md bg-muted p-2.5">
                   <span className="text-muted-foreground">Observação: </span>
                   {log.observacao}
                 </p>
