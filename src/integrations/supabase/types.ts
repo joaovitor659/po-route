@@ -18,6 +18,8 @@ export type Database = {
         Row: {
           aprovado_em: string | null
           aprovado_por: string | null
+          arquivado_em: string | null
+          arquivado_por: string | null
           cliente: string
           criado_em: string
           exportador: string
@@ -29,6 +31,8 @@ export type Database = {
         Insert: {
           aprovado_em?: string | null
           aprovado_por?: string | null
+          arquivado_em?: string | null
+          arquivado_por?: string | null
           cliente: string
           criado_em?: string
           exportador: string
@@ -40,6 +44,8 @@ export type Database = {
         Update: {
           aprovado_em?: string | null
           aprovado_por?: string | null
+          arquivado_em?: string | null
+          arquivado_por?: string | null
           cliente?: string
           criado_em?: string
           exportador?: string
