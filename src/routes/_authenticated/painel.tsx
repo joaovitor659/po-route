@@ -67,10 +67,10 @@ function Painel() {
   const pendentes = (data ?? []).filter((d) => d.status === "pendente_aprovacao").length;
 
   return (
-    <div className="space-y-6">
+    <div className="page-stack">
       <div>
-        <h1 className="text-2xl font-semibold sm:text-3xl">Painel de pedidos</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <h1 className="page-title">Painel de pedidos</h1>
+        <p className="page-subtitle">
           {pendentes === 0
             ? "Nenhum pedido aguardando sua decisão."
             : `${pendentes} pedido${pendentes > 1 ? "s" : ""} aguardando sua decisão.`}
@@ -118,13 +118,13 @@ function Painel() {
       )}
 
       {error && (
-        <p className="surface-panel p-6 text-sm text-destructive">
+        <p className="surface-panel panel-pad body-text text-destructive">
           Não foi possível carregar os pedidos. Atualize a página e tente novamente.
         </p>
       )}
 
       {!isLoading && !error && documentos.length === 0 && (
-        <p className="surface-panel p-8 text-center text-sm text-muted-foreground">
+        <p className="surface-panel body-text p-8 text-center text-muted-foreground">
           Nenhum pedido encontrado com os filtros atuais.
         </p>
       )}
@@ -136,22 +136,22 @@ function Painel() {
               to="/documento/$id"
               params={{ id: doc.id }}
               className={cn(
-                "surface-panel flex items-center gap-4 p-4 transition-shadow hover:shadow-[var(--shadow-lift)]",
+                "surface-panel panel-pad flex items-center gap-4 transition-shadow hover:shadow-[var(--shadow-lift)]",
                 doc.status === "pendente_aprovacao" && "border-l-4 border-l-warning",
               )}
             >
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="font-display text-base font-semibold">
+                  <span className="card-title">
                     {doc.identificador}
                   </span>
                   <StatusBadge status={doc.status} />
                 </div>
-                <p className="mt-1 truncate text-sm">{doc.cliente}</p>
-                <p className="truncate text-sm text-muted-foreground">
+                <p className="body-text mt-1.5 truncate font-medium">{doc.cliente}</p>
+                <p className="body-text truncate text-muted-foreground">
                   Exportador: {doc.exportador}
                 </p>
-                <p className="mt-1 text-xs text-muted-foreground">
+                <p className="meta-text mt-1.5">
                   Recebido em {formatarDataHora(doc.criado_em)}
                 </p>
               </div>
