@@ -44,7 +44,7 @@ export function AppHeader() {
         </Link>
 
 
-        <nav className="order-3 flex w-full gap-1 text-sm sm:order-none sm:w-auto">
+        <nav className="order-3 col-span-2 flex w-full gap-1 text-sm sm:order-none sm:col-span-1 sm:w-auto">
           <Link
             to="/painel"
             className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground data-[status=active]:bg-accent data-[status=active]:font-medium data-[status=active]:text-accent-foreground"
