@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import logoVissimo from "@/assets/vissimo-logo.png.asset.json";
+import logoVissimo from "@/assets/vissimo-mark.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -31,19 +31,20 @@ export function AppHeader() {
 
   return (
     <header className="sticky top-0 z-20 border-b border-border bg-card/85 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center gap-x-6 gap-y-2 px-4 py-3">
-        <Link to="/painel" className="flex items-center gap-2.5">
+      <div className="mx-auto grid max-w-6xl grid-cols-[minmax(0,1fr)_auto] items-center gap-x-6 gap-y-2 px-4 py-3 sm:flex sm:flex-wrap">
+        <Link to="/painel" className="flex min-w-0 items-center gap-2.5">
           <img
             src={logoVissimo.url}
             alt="Víssimo Group"
-            className="size-9 shrink-0 rounded-md object-cover"
+            className="size-9 shrink-0 rounded-md object-contain"
           />
-          <span className="font-display text-base leading-tight font-semibold">
+          <span className="truncate font-display text-sm leading-tight font-semibold sm:text-base">
             Fila de Aprovação de PO
           </span>
         </Link>
 
-        <nav className="order-3 flex w-full gap-1 text-sm sm:order-none sm:w-auto">
+
+        <nav className="order-3 col-span-2 flex w-full gap-1 text-sm sm:order-none sm:col-span-1 sm:w-auto">
           <Link
             to="/painel"
             className="rounded-md px-3 py-1.5 text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground data-[status=active]:bg-accent data-[status=active]:font-medium data-[status=active]:text-accent-foreground"

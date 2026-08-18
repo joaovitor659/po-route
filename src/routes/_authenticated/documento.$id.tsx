@@ -4,6 +4,7 @@ import { ArrowLeft, Check, ExternalLink, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
+import logoVissimo from "@/assets/vissimo-mark.png.asset.json";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import {
@@ -154,11 +155,23 @@ function DetalheDocumento() {
         Voltar ao painel
       </Link>
 
-      <div className="surface-panel p-5">
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-semibold">{documento.identificador}</h1>
-          <StatusBadge status={documento.status} />
+      <div className="surface-panel p-4 sm:p-5">
+        <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
+          <img
+            src={logoVissimo.url}
+            alt="Víssimo Group"
+            className="size-11 shrink-0 rounded-lg object-contain sm:size-12"
+          />
+          <div className="min-w-0">
+            <h1 className="truncate text-xl font-semibold sm:text-2xl">
+              {documento.identificador}
+            </h1>
+            <div className="mt-1.5">
+              <StatusBadge status={documento.status} />
+            </div>
+          </div>
         </div>
+
         <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
           <div>
             <dt className="text-muted-foreground">Cliente</dt>
@@ -183,7 +196,7 @@ function DetalheDocumento() {
         </dl>
 
         {pendente && (
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
             <Button
               onClick={() => decidir.mutate({ novoStatus: "aprovado", observacao: null })}
               disabled={decidir.isPending}
@@ -219,7 +232,7 @@ function DetalheDocumento() {
         <object
           data={documento.pdf_url}
           type="application/pdf"
-          className="h-[70vh] w-full bg-muted"
+          className="h-[55vh] w-full bg-muted sm:h-[70vh]"
           aria-label={`PDF do pedido ${documento.identificador}`}
         >
           <div className="p-6 text-sm text-muted-foreground">
