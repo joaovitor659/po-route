@@ -1,9 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight, Search } from "lucide-react";
+import { ChevronRight, RotateCcw, Search, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import { StatusBadge } from "@/components/StatusBadge";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
@@ -40,6 +51,9 @@ type FiltroStatus = "todos" | StatusPO;
 function Painel() {
   const [filtro, setFiltro] = useState<FiltroStatus>("todos");
   const [busca, setBusca] = useState("");
+  const [verArquivados, setVerArquivados] = useState(false);
+  const [paraArquivar, setParaArquivar] = useState<DocumentoPO | null>(null);
+  const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
     queryKey: ["documentos_po"],
@@ -53,18 +67,52 @@ function Painel() {
     },
   });
 
+  const arquivar = useMutation({
+    mutationFn: async ({ doc, arquivar }: { doc: DocumentoPO; arquivar: boolean }) => {
+      const { data: userData } = await supabase.auth.getUser();
+      const usuario = userData.user?.email ?? userData.user?.id ?? "desconhecido";
+      const { error } = await supabase
+        .from("documentos_po")
+        .update(
+          arquivar
+            ? { arquivado_em: new Date().toISOString(), arquivado_por: usuario }
+            : { arquivado_em: null, arquivado_por: null },
+        )
+        .eq("id", doc.id);
+      if (error) throw error;
+    },
+    onSuccess: (_dados, variaveis) => {
+      void queryClient.invalidateQueries({ queryKey: ["documentos_po"] });
+      setParaArquivar(null);
+      toast.success(
+        variaveis.arquivar
+          ? `Pedido ${variaveis.doc.identificador} removido da lista`
+          : `Pedido ${variaveis.doc.identificador} restaurado`,
+      );
+    },
+    onError: () => {
+      toast.error("Não foi possível atualizar o pedido", {
+        description: "Tente novamente em alguns instantes.",
+      });
+    },
+  });
+
   const documentos = useMemo(() => {
     const termo = busca.trim().toLowerCase();
     return (data ?? []).filter((doc) => {
+      if (verArquivados ? !doc.arquivado_em : doc.arquivado_em) return false;
       if (filtro !== "todos" && doc.status !== filtro) return false;
       if (!termo) return true;
       return [doc.identificador, doc.cliente, doc.exportador].some((campo) =>
         campo.toLowerCase().includes(termo),
       );
     });
-  }, [data, filtro, busca]);
+  }, [data, filtro, busca, verArquivados]);
 
-  const pendentes = (data ?? []).filter((d) => d.status === "pendente_aprovacao").length;
+  const pendentes = (data ?? []).filter(
+    (d) => d.status === "pendente_aprovacao" && !d.arquivado_em,
+  ).length;
+  const arquivados = (data ?? []).filter((d) => d.arquivado_em).length;
 
   return (
     <div className="page-stack">
@@ -107,6 +155,16 @@ function Painel() {
             </button>
           ))}
         </div>
+
+        <button
+          type="button"
+          onClick={() => setVerArquivados((v) => !v)}
+          className="meta-text underline-offset-4 hover:underline"
+        >
+          {verArquivados
+            ? "Voltar aos pedidos ativos"
+            : `Ver removidos (${arquivados})`}
+        </button>
       </div>
 
       {isLoading && (
@@ -125,26 +183,28 @@ function Painel() {
 
       {!isLoading && !error && documentos.length === 0 && (
         <p className="surface-panel body-text p-8 text-center text-muted-foreground">
-          Nenhum pedido encontrado com os filtros atuais.
+          {verArquivados
+            ? "Nenhum pedido removido."
+            : "Nenhum pedido encontrado com os filtros atuais."}
         </p>
       )}
 
       <ul className="space-y-3">
         {documentos.map((doc) => (
-          <li key={doc.id}>
+          <li key={doc.id} className="relative">
             <Link
               to="/documento/$id"
               params={{ id: doc.id }}
               className={cn(
                 "surface-panel panel-pad flex items-center gap-4 transition-shadow hover:shadow-[var(--shadow-lift)]",
-                doc.status === "pendente_aprovacao" && "border-l-4 border-l-warning",
+                doc.status === "pendente_aprovacao" &&
+                  !doc.arquivado_em &&
+                  "border-l-4 border-l-warning",
               )}
             >
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="card-title">
-                    {doc.identificador}
-                  </span>
+                  <span className="card-title">{doc.identificador}</span>
                   <StatusBadge status={doc.status} />
                 </div>
                 <p className="body-text mt-1.5 truncate font-medium">{doc.cliente}</p>
@@ -153,13 +213,69 @@ function Painel() {
                 </p>
                 <p className="meta-text mt-1.5">
                   Recebido em {formatarDataHora(doc.criado_em)}
+                  {doc.arquivado_em
+                    ? ` · removido em ${formatarDataHora(doc.arquivado_em)}`
+                    : ""}
                 </p>
               </div>
               <ChevronRight className="size-5 shrink-0 text-muted-foreground" />
             </Link>
+
+            <button
+              type="button"
+              disabled={arquivar.isPending}
+              onClick={() => {
+                if (doc.arquivado_em) {
+                  arquivar.mutate({ doc, arquivar: false });
+                } else {
+                  setParaArquivar(doc);
+                }
+              }}
+              aria-label={
+                doc.arquivado_em
+                  ? `Restaurar pedido ${doc.identificador}`
+                  : `Remover pedido ${doc.identificador} da lista`
+              }
+              className="absolute top-2 right-2 rounded-md p-2 text-muted-foreground transition-colors hover:bg-accent hover:text-destructive"
+            >
+              {doc.arquivado_em ? (
+                <RotateCcw className="size-4" />
+              ) : (
+                <Trash2 className="size-4" />
+              )}
+            </button>
           </li>
         ))}
       </ul>
+
+      <AlertDialog
+        open={paraArquivar !== null}
+        onOpenChange={(aberto) => !aberto && setParaArquivar(null)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>
+              Remover {paraArquivar?.identificador} da lista?
+            </AlertDialogTitle>
+            <AlertDialogDescription>
+              O pedido deixa de aparecer no painel. O histórico de decisões é
+              permanente e continua no histórico geral — você pode restaurar o
+              pedido em "Ver removidos".
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={() =>
+                paraArquivar && arquivar.mutate({ doc: paraArquivar, arquivar: true })
+              }
+            >
+              Remover
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
