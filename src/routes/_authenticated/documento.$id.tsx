@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Check, ExternalLink, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import logoVissimo from "@/assets/vissimo-mark.png.asset.json";
 
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
@@ -195,7 +196,7 @@ function DetalheDocumento() {
         </dl>
 
         {pendente && (
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
             <Button
               onClick={() => decidir.mutate({ novoStatus: "aprovado", observacao: null })}
               disabled={decidir.isPending}
@@ -231,7 +232,7 @@ function DetalheDocumento() {
         <object
           data={documento.pdf_url}
           type="application/pdf"
-          className="h-[70vh] w-full bg-muted"
+          className="h-[55vh] w-full bg-muted sm:h-[70vh]"
           aria-label={`PDF do pedido ${documento.identificador}`}
         >
           <div className="p-6 text-sm text-muted-foreground">
