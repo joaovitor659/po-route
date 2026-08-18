@@ -3,8 +3,8 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowLeft, Check, ExternalLink, X } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
-import logoVissimo from "@/assets/vissimo-mark.png.asset.json";
 
+import logoVissimo from "@/assets/vissimo-mark.png.asset.json";
 import { StatusBadge } from "@/components/StatusBadge";
 import { Button } from "@/components/ui/button";
 import {
