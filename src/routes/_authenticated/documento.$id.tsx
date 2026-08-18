@@ -154,11 +154,23 @@ function DetalheDocumento() {
         Voltar ao painel
       </Link>
 
-      <div className="surface-panel p-5">
-        <div className="flex flex-wrap items-center gap-3">
-          <h1 className="text-2xl font-semibold">{documento.identificador}</h1>
-          <StatusBadge status={documento.status} />
+      <div className="surface-panel p-4 sm:p-5">
+        <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3">
+          <img
+            src={logoVissimo.url}
+            alt="Víssimo Group"
+            className="size-11 shrink-0 rounded-lg object-contain sm:size-12"
+          />
+          <div className="min-w-0">
+            <h1 className="truncate text-xl font-semibold sm:text-2xl">
+              {documento.identificador}
+            </h1>
+            <div className="mt-1.5">
+              <StatusBadge status={documento.status} />
+            </div>
+          </div>
         </div>
+
         <dl className="mt-4 grid gap-4 text-sm sm:grid-cols-2">
           <div>
             <dt className="text-muted-foreground">Cliente</dt>
