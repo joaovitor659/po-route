@@ -24,6 +24,8 @@ export type DocumentoPO = {
   criado_em: string;
   aprovado_por: string | null;
   aprovado_em: string | null;
+  arquivado_em: string | null;
+  arquivado_por: string | null;
 };
 
 export type LogAprovacao = {
