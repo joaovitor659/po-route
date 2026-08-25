@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedHistoricoRouteImport } from './routes/_authenticated/historico'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedDocumentoIdRouteImport } from './routes/_authenticated/documento.$id'
+import { Route as ApiPublicCriarPoPendenteRouteImport } from './routes/api/public/criar-po-pendente'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -46,6 +47,12 @@ const AuthenticatedDocumentoIdRoute =
     path: '/documento/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicCriarPoPendenteRoute =
+  ApiPublicCriarPoPendenteRouteImport.update({
+    id: '/api/public/criar-po-pendente',
+    path: '/api/public/criar-po-pendente',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -53,6 +60,7 @@ export interface FileRoutesByFullPath {
   '/historico': typeof AuthenticatedHistoricoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/documento/$id': typeof AuthenticatedDocumentoIdRoute
+  '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -60,6 +68,7 @@ export interface FileRoutesByTo {
   '/historico': typeof AuthenticatedHistoricoRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/documento/$id': typeof AuthenticatedDocumentoIdRoute
+  '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -69,12 +78,25 @@ export interface FileRoutesById {
   '/_authenticated/historico': typeof AuthenticatedHistoricoRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/documento/$id': typeof AuthenticatedDocumentoIdRoute
+  '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth' | '/historico' | '/painel' | '/documento/$id'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/historico'
+    | '/painel'
+    | '/documento/$id'
+    | '/api/public/criar-po-pendente'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/historico' | '/painel' | '/documento/$id'
+  to:
+    | '/'
+    | '/auth'
+    | '/historico'
+    | '/painel'
+    | '/documento/$id'
+    | '/api/public/criar-po-pendente'
   id:
     | '__root__'
     | '/'
@@ -83,12 +105,14 @@ export interface FileRouteTypes {
     | '/_authenticated/historico'
     | '/_authenticated/painel'
     | '/_authenticated/documento/$id'
+    | '/api/public/criar-po-pendente'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
+  ApiPublicCriarPoPendenteRoute: typeof ApiPublicCriarPoPendenteRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -135,6 +159,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDocumentoIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/criar-po-pendente': {
+      id: '/api/public/criar-po-pendente'
+      path: '/api/public/criar-po-pendente'
+      fullPath: '/api/public/criar-po-pendente'
+      preLoaderRoute: typeof ApiPublicCriarPoPendenteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -157,6 +188,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
+  ApiPublicCriarPoPendenteRoute: ApiPublicCriarPoPendenteRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
