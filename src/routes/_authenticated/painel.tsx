@@ -273,7 +273,6 @@ function Painel() {
               Remover
             </AlertDialogAction>
           </AlertDialogFooter>
-        </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
     </div>
