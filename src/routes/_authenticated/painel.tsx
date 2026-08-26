@@ -270,6 +270,56 @@ function Painel() {
         ))}
       </ul>
 
+      {documentos.length > POR_PAGINA && (
+        <div className="space-y-2">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  aria-disabled={paginaAtual === 1}
+                  className={cn(paginaAtual === 1 && "pointer-events-none opacity-50")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPagina((p) => Math.max(1, p - 1));
+                  }}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((n) => (
+                <PaginationItem key={n}>
+                  <PaginationLink
+                    href="#"
+                    isActive={n === paginaAtual}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPagina(n);
+                    }}
+                  >
+                    {n}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  aria-disabled={paginaAtual === totalPaginas}
+                  className={cn(
+                    paginaAtual === totalPaginas && "pointer-events-none opacity-50",
+                  )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPagina((p) => Math.min(totalPaginas, p + 1));
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+          <p className="meta-text text-center">
+            Página {paginaAtual} de {totalPaginas} · {documentos.length} pedidos
+          </p>
+        </div>
+      )}
+
       <AlertDialog
         open={paraArquivar !== null}
         onOpenChange={(aberto) => !aberto && setParaArquivar(null)}
