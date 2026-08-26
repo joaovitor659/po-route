@@ -117,6 +117,17 @@ function Painel() {
     });
   }, [data, filtro, busca, verArquivados]);
 
+  const totalPaginas = Math.max(1, Math.ceil(documentos.length / POR_PAGINA));
+  const paginaAtual = Math.min(pagina, totalPaginas);
+  const visiveis = documentos.slice(
+    (paginaAtual - 1) * POR_PAGINA,
+    paginaAtual * POR_PAGINA,
+  );
+
+  useEffect(() => {
+    setPagina(1);
+  }, [filtro, busca, verArquivados]);
+
   const pendentes = (data ?? []).filter(
     (d) => d.status === "pendente_aprovacao" && !d.arquivado_em,
   ).length;
