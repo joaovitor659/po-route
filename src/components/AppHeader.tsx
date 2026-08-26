@@ -3,7 +3,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 
-import logoVissimo from "@/assets/vissimo-mark.png.asset.json";
+import logoVissimo from "@/assets/vissimo-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -36,7 +36,7 @@ export function AppHeader() {
           <img
             src={logoVissimo.url}
             alt="Víssimo Group"
-            className="size-9 shrink-0 rounded-md object-contain"
+            className="h-9 w-auto max-w-[7rem] shrink-0 rounded-md object-contain sm:h-10 sm:max-w-[9rem]"
           />
           <span className="truncate font-display text-sm leading-tight font-semibold sm:text-base">
             PO pendente de aprovação
