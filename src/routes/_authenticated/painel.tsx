@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight, RotateCcw, Search, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { StatusBadge } from "@/components/StatusBadge";
@@ -56,11 +56,14 @@ export const Route = createFileRoute("/_authenticated/painel")({
 
 type FiltroStatus = "todos" | StatusPO;
 
+const POR_PAGINA = 10;
+
 function Painel() {
   const [filtro, setFiltro] = useState<FiltroStatus>("todos");
   const [busca, setBusca] = useState("");
   const [verArquivados, setVerArquivados] = useState(false);
   const [paraArquivar, setParaArquivar] = useState<DocumentoPO | null>(null);
+  const [pagina, setPagina] = useState(1);
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
@@ -209,7 +212,7 @@ function Painel() {
       )}
 
       <ul className="space-y-3">
-        {documentos.map((doc) => (
+        {visiveis.map((doc) => (
           <li key={doc.id} className="relative">
             <Link
               to="/documento/$id"
