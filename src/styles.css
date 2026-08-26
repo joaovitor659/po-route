@@ -56,12 +56,16 @@
   --shadow-lift: 0 2px 6px oklch(0.3 0.07 310 / 0.09), 0 16px 40px oklch(0.3 0.07 310 / 0.12);
   --color-brand: var(--brand);
   --color-brand-foreground: var(--brand-foreground);
+  --color-coral: var(--coral);
+  --color-coral-foreground: var(--coral-foreground);
 }
 
 :root {
   --radius: 0.5rem;
   --brand: oklch(0.37 0.075 310);
   --brand-foreground: oklch(0.94 0.012 80);
+  --coral: oklch(0.64 0.15 40);
+  --coral-foreground: oklch(0.32 0.09 35);
   --background: oklch(0.984 0.005 310);
   --foreground: oklch(0.25 0.045 310);
   --card: oklch(1 0.002 310);
@@ -76,7 +80,7 @@
   --muted-foreground: oklch(0.52 0.03 310);
   --accent: oklch(0.93 0.03 320);
   --accent-foreground: oklch(0.32 0.07 310);
-  --destructive: oklch(0.58 0.19 16);
+  --destructive: oklch(0.55 0.19 25);
   --destructive-foreground: oklch(0.98 0.01 80);
   --success: oklch(0.5 0.11 155);
   --success-foreground: oklch(0.98 0.01 80);
@@ -100,6 +104,8 @@
 .dark {
   --brand: oklch(0.37 0.075 310);
   --brand-foreground: oklch(0.94 0.012 80);
+  --coral: oklch(0.7 0.14 40);
+  --coral-foreground: oklch(0.2 0.03 40);
   --background: oklch(0.2 0.03 310);
   --foreground: oklch(0.96 0.008 80);
   --card: oklch(0.25 0.04 310);
@@ -114,7 +120,7 @@
   --muted-foreground: oklch(0.74 0.02 310);
   --accent: oklch(0.34 0.05 315);
   --accent-foreground: oklch(0.96 0.008 80);
-  --destructive: oklch(0.65 0.19 16);
+  --destructive: oklch(0.62 0.19 25);
   --destructive-foreground: oklch(0.98 0.01 80);
   --success: oklch(0.62 0.12 155);
   --success-foreground: oklch(0.18 0.03 310);

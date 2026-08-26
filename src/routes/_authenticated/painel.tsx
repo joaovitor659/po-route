@@ -199,7 +199,7 @@ function Painel() {
                 "surface-panel panel-pad flex items-center gap-4 transition-shadow hover:shadow-[var(--shadow-lift)]",
                 doc.status === "pendente_aprovacao" &&
                   !doc.arquivado_em &&
-                  "border-l-4 border-l-warning",
+                  "border-l-4 border-l-coral",
               )}
             >
               <div className="min-w-0 flex-1">
