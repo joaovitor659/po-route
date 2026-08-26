@@ -10,7 +10,7 @@ export const STATUS_ORDEM: StatusPO[] = [
 export const STATUS_LABEL: Record<StatusPO, string> = {
   pendente_aprovacao: "Pendente de aprovação",
   aprovado: "Aprovado",
-  rejeitado: "Rejeitado",
+  rejeitado: "Reprovado",
   enviado: "Enviado",
 };
 
