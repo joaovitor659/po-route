@@ -39,7 +39,7 @@ export function AppHeader() {
             className="size-9 shrink-0 rounded-md object-contain"
           />
           <span className="truncate font-display text-sm leading-tight font-semibold sm:text-base">
-            Fila de Aprovação de PO
+            PO pendente de aprovação
           </span>
         </Link>
 

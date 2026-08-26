@@ -120,8 +120,8 @@ function Painel() {
         <h1 className="page-title">Painel de pedidos</h1>
         <p className="page-subtitle">
           {pendentes === 0
-            ? "Nenhum pedido aguardando sua decisão."
-            : `${pendentes} pedido${pendentes > 1 ? "s" : ""} aguardando sua decisão.`}
+            ? "Nenhum pedido aguardando sua aprovação."
+            : `${pendentes} pedido${pendentes > 1 ? "s" : ""} aguardando sua aprovação.`}
         </p>
       </div>
 
