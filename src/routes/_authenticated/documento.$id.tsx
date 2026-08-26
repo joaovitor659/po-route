@@ -219,15 +219,25 @@ function DetalheDocumento() {
       <section className="surface-panel overflow-hidden">
         <div className="flex items-center justify-between gap-3 border-b border-border px-4 py-3">
           <h2 className="section-title">Documento PDF</h2>
-          <a
-            href={documento.pdf_url}
-            target="_blank"
-            rel="noreferrer"
-            className="body-text inline-flex items-center gap-1.5 text-primary hover:underline"
-          >
-            Abrir em nova aba
-            <ExternalLink className="size-3.5" />
-          </a>
+          <div className="flex flex-wrap items-center gap-3">
+            <a
+              href={documento.pdf_url}
+              target="_blank"
+              rel="noreferrer"
+              className="body-text inline-flex items-center gap-1.5 text-primary hover:underline"
+            >
+              Abrir em nova aba
+              <ExternalLink className="size-3.5" />
+            </a>
+            <a
+              href={documento.pdf_url}
+              download={`${documento.identificador}.pdf`}
+              className="body-text inline-flex items-center gap-1.5 text-primary hover:underline"
+            >
+              Baixar PDF
+              <Download className="size-3.5" />
+            </a>
+          </div>
         </div>
         <object
           data={documento.pdf_url}
