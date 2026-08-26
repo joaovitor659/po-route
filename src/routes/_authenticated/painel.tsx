@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronRight, RotateCcw, Search, Trash2 } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { toast } from "sonner";
 
 import { StatusBadge } from "@/components/StatusBadge";
@@ -16,6 +16,14 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Input } from "@/components/ui/input";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 import {
@@ -48,11 +56,14 @@ export const Route = createFileRoute("/_authenticated/painel")({
 
 type FiltroStatus = "todos" | StatusPO;
 
+const POR_PAGINA = 10;
+
 function Painel() {
   const [filtro, setFiltro] = useState<FiltroStatus>("todos");
   const [busca, setBusca] = useState("");
   const [verArquivados, setVerArquivados] = useState(false);
   const [paraArquivar, setParaArquivar] = useState<DocumentoPO | null>(null);
+  const [pagina, setPagina] = useState(1);
   const queryClient = useQueryClient();
 
   const { data, isLoading, error } = useQuery({
@@ -108,6 +119,17 @@ function Painel() {
       );
     });
   }, [data, filtro, busca, verArquivados]);
+
+  const totalPaginas = Math.max(1, Math.ceil(documentos.length / POR_PAGINA));
+  const paginaAtual = Math.min(pagina, totalPaginas);
+  const visiveis = documentos.slice(
+    (paginaAtual - 1) * POR_PAGINA,
+    paginaAtual * POR_PAGINA,
+  );
+
+  useEffect(() => {
+    setPagina(1);
+  }, [filtro, busca, verArquivados]);
 
   const pendentes = (data ?? []).filter(
     (d) => d.status === "pendente_aprovacao" && !d.arquivado_em,
@@ -190,7 +212,7 @@ function Painel() {
       )}
 
       <ul className="space-y-3">
-        {documentos.map((doc) => (
+        {visiveis.map((doc) => (
           <li key={doc.id} className="relative">
             <Link
               to="/documento/$id"
@@ -247,6 +269,56 @@ function Painel() {
           </li>
         ))}
       </ul>
+
+      {documentos.length > POR_PAGINA && (
+        <div className="space-y-2">
+          <Pagination>
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  href="#"
+                  aria-disabled={paginaAtual === 1}
+                  className={cn(paginaAtual === 1 && "pointer-events-none opacity-50")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPagina((p) => Math.max(1, p - 1));
+                  }}
+                />
+              </PaginationItem>
+              {Array.from({ length: totalPaginas }, (_, i) => i + 1).map((n) => (
+                <PaginationItem key={n}>
+                  <PaginationLink
+                    href="#"
+                    isActive={n === paginaAtual}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setPagina(n);
+                    }}
+                  >
+                    {n}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  href="#"
+                  aria-disabled={paginaAtual === totalPaginas}
+                  className={cn(
+                    paginaAtual === totalPaginas && "pointer-events-none opacity-50",
+                  )}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setPagina((p) => Math.min(totalPaginas, p + 1));
+                  }}
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
+          <p className="meta-text text-center">
+            Página {paginaAtual} de {totalPaginas} · {documentos.length} pedidos
+          </p>
+        </div>
+      )}
 
       <AlertDialog
         open={paraArquivar !== null}
