@@ -2,7 +2,7 @@ import { STATUS_LABEL, type StatusPO } from "@/lib/po";
 import { cn } from "@/lib/utils";
 
 const estilos: Record<StatusPO, string> = {
-  pendente_aprovacao: "bg-warning/20 text-warning-foreground border-warning/50",
+  pendente_aprovacao: "bg-coral/20 text-coral-foreground border-coral/50",
   aprovado: "bg-success/15 text-success border-success/40",
   rejeitado: "bg-destructive/12 text-destructive border-destructive/40",
   enviado: "bg-info/12 text-info border-info/40",

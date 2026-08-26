@@ -2,7 +2,7 @@ import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-import logoVissimo from "@/assets/vissimo-mark.png.asset.json";
+import logoVissimo from "@/assets/vissimo-logo.png.asset.json";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -68,7 +68,7 @@ function PaginaLogin() {
           <img
             src={logoVissimo.url}
             alt="Víssimo Group"
-            className="size-16 rounded-xl object-contain shadow-[var(--shadow-panel)]"
+            className="h-20 w-auto max-w-[16rem] rounded-xl object-contain shadow-[var(--shadow-panel)]"
           />
           <h1 className="mt-4 text-2xl font-semibold">Fila de Aprovação de PO</h1>
           <p className="mt-1 text-sm text-muted-foreground">
