@@ -27,10 +27,13 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { supabase } from "@/integrations/supabase/client";
 import {
+  EMPRESAS,
+  empresaDoCliente,
   formatarDataHora,
   STATUS_LABEL,
   STATUS_ORDEM,
   type DocumentoPO,
+  type Empresa,
   type StatusPO,
 } from "@/lib/po";
 import { cn } from "@/lib/utils";
@@ -55,11 +58,13 @@ export const Route = createFileRoute("/_authenticated/painel")({
 });
 
 type FiltroStatus = "todos" | StatusPO;
+type FiltroEmpresa = "todas" | Empresa;
 
 const POR_PAGINA = 10;
 
 function Painel() {
   const [filtro, setFiltro] = useState<FiltroStatus>("todos");
+  const [empresa, setEmpresa] = useState<FiltroEmpresa>("todas");
   const [busca, setBusca] = useState("");
   const [verArquivados, setVerArquivados] = useState(false);
   const [paraArquivar, setParaArquivar] = useState<DocumentoPO | null>(null);
@@ -113,12 +118,13 @@ function Painel() {
     return (data ?? []).filter((doc) => {
       if (verArquivados ? !doc.arquivado_em : doc.arquivado_em) return false;
       if (filtro !== "todos" && doc.status !== filtro) return false;
+      if (empresa !== "todas" && empresaDoCliente(doc.cliente) !== empresa) return false;
       if (!termo) return true;
       return [doc.identificador, doc.cliente, doc.exportador].some((campo) =>
         campo.toLowerCase().includes(termo),
       );
     });
-  }, [data, filtro, busca, verArquivados]);
+  }, [data, filtro, empresa, busca, verArquivados]);
 
   const totalPaginas = Math.max(1, Math.ceil(documentos.length / POR_PAGINA));
   const paginaAtual = Math.min(pagina, totalPaginas);
@@ -129,7 +135,7 @@ function Painel() {
 
   useEffect(() => {
     setPagina(1);
-  }, [filtro, busca, verArquivados]);
+  }, [filtro, empresa, busca, verArquivados]);
 
   const pendentes = (data ?? []).filter(
     (d) => d.status === "pendente_aprovacao" && !d.arquivado_em,
@@ -158,6 +164,24 @@ function Painel() {
             className="pl-9"
             aria-label="Buscar pedidos"
           />
+        </div>
+
+        <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+          {(["todas", ...EMPRESAS] as FiltroEmpresa[]).map((opcao) => (
+            <button
+              key={opcao}
+              type="button"
+              onClick={() => setEmpresa(opcao)}
+              className={cn(
+                "shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors",
+                empresa === opcao
+                  ? "border-primary bg-primary text-primary-foreground"
+                  : "border-border bg-card text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+              )}
+            >
+              {opcao === "todas" ? "Todas as empresas" : opcao}
+            </button>
+          ))}
         </div>
 
         <div className="-mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
