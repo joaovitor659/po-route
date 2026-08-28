@@ -71,9 +71,6 @@ function PaginaLogin() {
             className="h-20 w-auto max-w-[16rem] rounded-xl object-contain shadow-[var(--shadow-panel)]"
           />
           <h1 className="mt-4 text-2xl font-semibold">Fila de Aprovação de PO</h1>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Acesso restrito à gerência de comércio exterior.
-          </p>
         </div>
 
         <form onSubmit={entrar} className="surface-panel space-y-4 p-6">

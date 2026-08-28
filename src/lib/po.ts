@@ -14,6 +14,17 @@ export const STATUS_LABEL: Record<StatusPO, string> = {
   enviado: "Enviado",
 };
 
+export type Empresa = "Evino" | "Grand Cru" | "Outras";
+
+export const EMPRESAS: Empresa[] = ["Evino", "Grand Cru", "Outras"];
+
+export function empresaDoCliente(cliente: string): Empresa {
+  const texto = cliente.toLowerCase().replace(/[^a-z]/g, "");
+  if (texto.includes("evino") || texto.includes("evinocomercio")) return "Evino";
+  if (texto.includes("grandcru")) return "Grand Cru";
+  return "Outras";
+}
+
 export type DocumentoPO = {
   id: string;
   identificador: string;
