@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Aplicativo interno para a gerência aprovar ou rejeitar pedidos de compra de importação de vinhos, com registro permanente de cada decisão.",
+          "Ambiente interno de aprovação de pedidos de compra de importação de vinhos, com registro permanente de cada decisão.",
       },
       { property: "og:title", content: "Fila de Aprovação de PO" },
       {
@@ -48,8 +48,8 @@ function PaginaInicial() {
         </h1>
         <p className="mt-4 max-w-xl text-base text-muted-foreground">
           Sistema interno de comércio exterior. Os pedidos de compra chegam prontos da
-          planilha e da automação — aqui a gerência apenas revisa o PDF e registra a
-          decisão.
+          planilha e da automação — aqui o pedido é apenas revisado no PDF e a decisão é
+          registrada.
         </p>
 
         <div className="mt-8">
@@ -64,7 +64,7 @@ function PaginaInicial() {
             <dt className="mt-3 font-medium">Aprovação com o PDF em tela</dt>
             <dd className="mt-1 text-sm text-muted-foreground">
               Cada pedido pendente mostra o documento gerado pela automação, pronto para
-              aprovar ou rejeitar com motivo.
+              aprovar ou reprovar com motivo.
             </dd>
           </div>
           <div className="surface-panel p-5">

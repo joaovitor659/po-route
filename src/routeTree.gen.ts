@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as AuthenticatedHistoricoRouteImport } from './routes/_authenticated/historico'
+import { Route as AuthenticatedIndicadoresRouteImport } from './routes/_authenticated/indicadores'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedDocumentoIdRouteImport } from './routes/_authenticated/documento.$id'
 import { Route as ApiPublicCriarPoPendenteRouteImport } from './routes/api/public/criar-po-pendente'
@@ -36,6 +37,12 @@ const AuthenticatedHistoricoRoute = AuthenticatedHistoricoRouteImport.update({
   path: '/historico',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedIndicadoresRoute =
+  AuthenticatedIndicadoresRouteImport.update({
+    id: '/indicadores',
+    path: '/indicadores',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
 const AuthenticatedPainelRoute = AuthenticatedPainelRouteImport.update({
   id: '/painel',
   path: '/painel',
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/historico': typeof AuthenticatedHistoricoRoute
+  '/indicadores': typeof AuthenticatedIndicadoresRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/documento/$id': typeof AuthenticatedDocumentoIdRoute
   '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/auth': typeof AuthRoute
   '/historico': typeof AuthenticatedHistoricoRoute
+  '/indicadores': typeof AuthenticatedIndicadoresRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/documento/$id': typeof AuthenticatedDocumentoIdRoute
   '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
@@ -76,6 +85,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/auth': typeof AuthRoute
   '/_authenticated/historico': typeof AuthenticatedHistoricoRoute
+  '/_authenticated/indicadores': typeof AuthenticatedIndicadoresRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/documento/$id': typeof AuthenticatedDocumentoIdRoute
   '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/historico'
+    | '/indicadores'
     | '/painel'
     | '/documento/$id'
     | '/api/public/criar-po-pendente'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/auth'
     | '/historico'
+    | '/indicadores'
     | '/painel'
     | '/documento/$id'
     | '/api/public/criar-po-pendente'
@@ -103,6 +115,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/auth'
     | '/_authenticated/historico'
+    | '/_authenticated/indicadores'
     | '/_authenticated/painel'
     | '/_authenticated/documento/$id'
     | '/api/public/criar-po-pendente'
@@ -145,6 +158,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedHistoricoRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/indicadores': {
+      id: '/_authenticated/indicadores'
+      path: '/indicadores'
+      fullPath: '/indicadores'
+      preLoaderRoute: typeof AuthenticatedIndicadoresRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/painel': {
       id: '/_authenticated/painel'
       path: '/painel'
@@ -171,12 +191,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedHistoricoRoute: typeof AuthenticatedHistoricoRoute
+  AuthenticatedIndicadoresRoute: typeof AuthenticatedIndicadoresRoute
   AuthenticatedPainelRoute: typeof AuthenticatedPainelRoute
   AuthenticatedDocumentoIdRoute: typeof AuthenticatedDocumentoIdRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHistoricoRoute: AuthenticatedHistoricoRoute,
+  AuthenticatedIndicadoresRoute: AuthenticatedIndicadoresRoute,
   AuthenticatedPainelRoute: AuthenticatedPainelRoute,
   AuthenticatedDocumentoIdRoute: AuthenticatedDocumentoIdRoute,
 }
