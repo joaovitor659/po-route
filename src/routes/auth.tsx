@@ -15,12 +15,12 @@ export const Route = createFileRoute("/auth")({
       {
         name: "description",
         content:
-          "Acesso restrito à gerência para aprovar ou rejeitar pedidos de compra de importação de vinhos.",
+          "Ambiente de aprovação de pedidos de compra de importação de vinhos.",
       },
       { property: "og:title", content: "Entrar — Fila de Aprovação de PO" },
       {
         property: "og:description",
-        content: "Acesso restrito à gerência da fila de aprovação de pedidos de compra.",
+        content: "Ambiente de aprovação de pedidos de compra de importação.",
       },
     ],
   }),
