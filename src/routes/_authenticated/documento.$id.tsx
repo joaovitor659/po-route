@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
+import { notificarPoAprovada } from "@/lib/notificar-aprovacao.functions";
 import {
   formatarDataHora,
   STATUS_LABEL,
@@ -112,6 +113,12 @@ function DetalheDocumento() {
       void queryClient.invalidateQueries({ queryKey: ["log_aprovacoes"] });
       setMotivoAberto(false);
       setMotivo("");
+      if (variaveis.novoStatus === "aprovado" && documento) {
+        // Fire-and-forget: avisa o n8n sem bloquear a interface.
+        void notificarPoAprovada({ data: { identificador: documento.identificador } }).catch(
+          (erro) => console.error("[n8n] Falha ao chamar notificação de aprovação:", erro),
+        );
+      }
       toast.success(
         variaveis.novoStatus === "aprovado" ? "Pedido aprovado" : "Pedido rejeitado",
       );
