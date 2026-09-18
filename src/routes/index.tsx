@@ -52,9 +52,12 @@ function PaginaInicial() {
           registrada.
         </p>
 
-        <div className="mt-8">
+        <div className="mt-8 flex flex-wrap items-center gap-3">
           <Button asChild size="lg">
             <Link to="/auth">Entrar</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline">
+            <Link to="/cadastro">Criar conta</Link>
           </Button>
         </div>
 
