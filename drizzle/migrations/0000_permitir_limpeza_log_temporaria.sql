@@ -1,0 +1,1 @@
+DROP TRIGGER IF EXISTS log_aprovacoes_imutavel ON public.log_aprovacoes;
