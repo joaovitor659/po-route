@@ -103,11 +103,17 @@ function PaginaLogin() {
           <Button type="submit" className="w-full" disabled={carregando}>
             {carregando ? "Entrando…" : "Entrar"}
           </Button>
-          <p className="text-center text-xs text-muted-foreground">
-            Os acessos são criados pela equipe de TI. Em caso de problemas, procure o
-            administrador do sistema.
-          </p>
         </form>
+
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          Não tem conta?{" "}
+          <Link
+            to="/cadastro"
+            className="font-medium text-foreground underline-offset-4 hover:underline"
+          >
+            Criar conta
+          </Link>
+        </p>
       </div>
     </div>
   );
