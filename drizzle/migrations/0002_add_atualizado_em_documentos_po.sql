@@ -1,0 +1,1 @@
+ALTER TABLE public.documentos_po ADD COLUMN IF NOT EXISTS atualizado_em TIMESTAMPTZ;
