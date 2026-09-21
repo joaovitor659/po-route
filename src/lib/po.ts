@@ -33,6 +33,7 @@ export type DocumentoPO = {
   pdf_url: string;
   status: StatusPO;
   criado_em: string;
+  atualizado_em?: string | null;
   aprovado_por: string | null;
   aprovado_em: string | null;
   arquivado_em: string | null;

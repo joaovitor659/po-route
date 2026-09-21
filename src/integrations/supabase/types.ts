@@ -20,6 +20,7 @@ export type Database = {
           aprovado_por: string | null
           arquivado_em: string | null
           arquivado_por: string | null
+          atualizado_em: string | null
           cliente: string
           criado_em: string
           exportador: string
@@ -33,6 +34,7 @@ export type Database = {
           aprovado_por?: string | null
           arquivado_em?: string | null
           arquivado_por?: string | null
+          atualizado_em?: string | null
           cliente: string
           criado_em?: string
           exportador: string
@@ -46,6 +48,7 @@ export type Database = {
           aprovado_por?: string | null
           arquivado_em?: string | null
           arquivado_por?: string | null
+          atualizado_em?: string | null
           cliente?: string
           criado_em?: string
           exportador?: string

@@ -15,6 +15,13 @@
       "when": 1789738230929,
       "tag": "0001_restaurar_imutabilidade_log",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790022992765,
+      "tag": "0002_add_atualizado_em_documentos_po",
+      "breakpoints": true
     }
   ]
 }
