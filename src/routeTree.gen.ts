@@ -17,6 +17,7 @@ import { Route as AuthenticatedHistoricoRouteImport } from './routes/_authentica
 import { Route as AuthenticatedIndicadoresRouteImport } from './routes/_authenticated/indicadores'
 import { Route as AuthenticatedPainelRouteImport } from './routes/_authenticated/painel'
 import { Route as AuthenticatedDocumentoIdRouteImport } from './routes/_authenticated/documento.$id'
+import { Route as ApiPublicAtualizarPoRouteImport } from './routes/api/public/atualizar-po'
 import { Route as ApiPublicCriarPoPendenteRouteImport } from './routes/api/public/criar-po-pendente'
 
 const IndexRoute = IndexRouteImport.update({
@@ -60,6 +61,11 @@ const AuthenticatedDocumentoIdRoute =
     path: '/documento/$id',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const ApiPublicAtualizarPoRoute = ApiPublicAtualizarPoRouteImport.update({
+  id: '/api/public/atualizar-po',
+  path: '/api/public/atualizar-po',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicCriarPoPendenteRoute =
   ApiPublicCriarPoPendenteRouteImport.update({
     id: '/api/public/criar-po-pendente',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/indicadores': typeof AuthenticatedIndicadoresRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/documento/$id': typeof AuthenticatedDocumentoIdRoute
+  '/api/public/atualizar-po': typeof ApiPublicAtualizarPoRoute
   '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
 }
 export interface FileRoutesByTo {
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/indicadores': typeof AuthenticatedIndicadoresRoute
   '/painel': typeof AuthenticatedPainelRoute
   '/documento/$id': typeof AuthenticatedDocumentoIdRoute
+  '/api/public/atualizar-po': typeof ApiPublicAtualizarPoRoute
   '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
 }
 export interface FileRoutesById {
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/_authenticated/indicadores': typeof AuthenticatedIndicadoresRoute
   '/_authenticated/painel': typeof AuthenticatedPainelRoute
   '/_authenticated/documento/$id': typeof AuthenticatedDocumentoIdRoute
+  '/api/public/atualizar-po': typeof ApiPublicAtualizarPoRoute
   '/api/public/criar-po-pendente': typeof ApiPublicCriarPoPendenteRoute
 }
 export interface FileRouteTypes {
@@ -109,6 +118,7 @@ export interface FileRouteTypes {
     | '/indicadores'
     | '/painel'
     | '/documento/$id'
+    | '/api/public/atualizar-po'
     | '/api/public/criar-po-pendente'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -119,6 +129,7 @@ export interface FileRouteTypes {
     | '/indicadores'
     | '/painel'
     | '/documento/$id'
+    | '/api/public/atualizar-po'
     | '/api/public/criar-po-pendente'
   id:
     | '__root__'
@@ -130,6 +141,7 @@ export interface FileRouteTypes {
     | '/_authenticated/indicadores'
     | '/_authenticated/painel'
     | '/_authenticated/documento/$id'
+    | '/api/public/atualizar-po'
     | '/api/public/criar-po-pendente'
   fileRoutesById: FileRoutesById
 }
@@ -138,6 +150,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   CadastroRoute: typeof CadastroRoute
+  ApiPublicAtualizarPoRoute: typeof ApiPublicAtualizarPoRoute
   ApiPublicCriarPoPendenteRoute: typeof ApiPublicCriarPoPendenteRoute
 }
 
@@ -199,6 +212,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDocumentoIdRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/public/atualizar-po': {
+      id: '/api/public/atualizar-po'
+      path: '/api/public/atualizar-po'
+      fullPath: '/api/public/atualizar-po'
+      preLoaderRoute: typeof ApiPublicAtualizarPoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/criar-po-pendente': {
       id: '/api/public/criar-po-pendente'
       path: '/api/public/criar-po-pendente'
@@ -231,6 +251,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   CadastroRoute: CadastroRoute,
+  ApiPublicAtualizarPoRoute: ApiPublicAtualizarPoRoute,
   ApiPublicCriarPoPendenteRoute: ApiPublicCriarPoPendenteRoute,
 }
 export const routeTree = rootRouteImport
